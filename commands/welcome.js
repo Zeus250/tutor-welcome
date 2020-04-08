@@ -5,8 +5,9 @@ const config = require("../config.json");
 exports.run = async (bot, message, args, member ) => {
   if (
     !message.member.hasPermission("MANAGE_CHANNELS") &&
-    message.author.id === 659315868098101249 && message.author.id === 575001881445793793
-  )
+    message.author.id === id_lu)
+
+
     return message.reply("Maaf kamu tidak bisa menggunakan perintah ini!");
   let m = args.join(" ");
   if (!m) {
