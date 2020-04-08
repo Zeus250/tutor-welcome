@@ -42,7 +42,7 @@ client.on('ready', async member => {
   
 
 client.on('message', message => {
-  if (message.content === '>test') {
+  if (message.content === '-test') {
     client.emit('guildMemberAdd', message.member);
   } 
 });
