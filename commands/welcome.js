@@ -11,7 +11,6 @@ exports.run = async (bot, message, args, member ) => {
     return message.reply("Maaf kamu tidak bisa menggunakan perintah ini!");
   let m = args.join(" ");
   if (!m) {
-     } else {
     if (m.match("set")) {
       let r = JSON.parse(fs.readFileSync("./database/welcome.json", "utf8"));
 
@@ -30,8 +29,8 @@ exports.run = async (bot, message, args, member ) => {
         );
         console.log(r);
 
-        let dis = new Discord.RichEmbed()
-          .setDescription(`:white_check_mark: WELCOME Di Set Ke ${ro}`)
+        let dis = new Discord.MessageEmbed()
+          .setDescription(`:white_check_mark: **Welcome berhasil di Set Ke** ${ro}`)
           .setColor("RANDOM");
         message.channel.send(dis);
       }
@@ -50,8 +49,8 @@ exports.run = async (bot, message, args, member ) => {
         if (err) console.log(err);
       }
     );
-    let ms = new Discord.RichEmbed()
-      .setDescription(`:white_check_mark: Welcome sudah di aktifkan`)
+    let ms = new Discord.MessageEmbed()
+      .setDescription(`:white_check_mark: **Welcome sudah Di Aktifkan**`)
       .setColor(`RANDOM`);
     message.channel.send(ms);
   }
@@ -68,8 +67,8 @@ exports.run = async (bot, message, args, member ) => {
         if (err) console.log(err);
       }
     );
-    let m = new Discord.RichEmbed()
-      .setDescription(`<:emoji_28:666116417715830815> welcome udah gw aktifin`)
+    let m = new Discord.MessageEmbed()
+      .setDescription(`<:emoji_28:666116417715830815> **Welcome Sudah Di Matikan**`)
       .setColor("RANDOM");
     message.channel.send(m);
   }
@@ -79,14 +78,14 @@ exports.run = async (bot, message, args, member ) => {
     );
     let setback = "";
 
-    if ((setback = message.attachments.first())) {
-      setback = message.attachments.first().url;
+    if (setback = message.attachments.array()[0]) {
+      setback = message.attachments.array()[0].url;
     } else {
       setback = args[1];
     }
 
     if (!setback)
-      return message.reply("**UNGGAH** atau masukkan **LINK** gambar nya dulu lah tod :v");
+      return message.reply("**UNGGAH** atau masukkan **LINK** gambar nya dulu dek :v");
     backgroundset[message.guild.id] = {
       backgrounds: setback
     };
@@ -95,17 +94,30 @@ exports.run = async (bot, message, args, member ) => {
     fs.writeFile("./database/backgroundwelcome.json",JSON.stringify(backgroundset, null, 2), err => {
         if (err) console.log(err);
       });
-    message.channel.send(":white_check_mark: Background udah gw ganti");
+    message.channel.send(":white_check_mark: Background sudah di ganti");
   };
-  
-
-};
-
-exports.conf = {
-  enabled: true,
-  guildOnly: false,
-  aliases: [],
-  permLevel: 0
+ 
+  if (m.match("color")) {
+    if (!message.member.hasPermission("MANAGE_GUILD") && message.author.id !== "412855529501753344")
+     return message.reply("❌ **Anda memerlukan izin \`MANAGE_GUILD\` untuk melakukan perintah ini!**");
+    let colorset = args.slice(1).join();
+    if (!colorset) return message.reply(`❎ Silahkan masukkan warna terlebih dahulu, gunakan \`${config.prefix}welcome color <white>\``
+      );
+    let database = JSON.parse(fs.readFileSync("./database/color.json", "utf8"));
+    database[message.guild.id] = {
+      colors: `${colorset}`
+    };
+    fs.writeFile(
+      "./database/color.json",
+      JSON.stringify(database, null, 2),
+      err => {
+        if (err) console.log(err);
+      }
+    );
+    message.channel.send(
+      `✅ **${message.author.tag}**, Warna Welcome berhasil di ganti. **sudah berubah!**`
+    );
+  }
 };
 
 exports.help = {
